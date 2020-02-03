@@ -3,7 +3,10 @@
   "private": true,
   "version": "1.0.0",
   "main": "index.js",
-  "workspaces": ["tests/*", "webpack-project-references-alias"],
+  "workspaces": [
+    "tests/*",
+    "webpack-project-references-alias"
+  ],
   "license": "MIT",
   "scripts": {
     "build": "cd webpack-project-references-alias && yarn tsc --build",
@@ -12,7 +15,10 @@
     "test-lib-imports": "yarn build-tests && yarn bundle-from-lib",
     "clean-tests": "cd tests/test-webpack-alias && yarn tsc --build --clean",
     "build-tests": "cd tests/test-webpack-alias && yarn tsc --build",
-    "bundle-from-sources":  "cd tests/test-webpack-alias && yarn webpack",
-    "bundle-from-lib":  "cd tests/test-webpack-alias && yarn webpack --config webpack.config.prod.js"
+    "bundle-from-sources": "cd tests/test-webpack-alias && yarn webpack",
+    "bundle-from-lib": "cd tests/test-webpack-alias && yarn webpack --config webpack.config.prod.js"
+  },
+  "dependencies": {
+    "prettier": "^1.19.1"
   }
 }

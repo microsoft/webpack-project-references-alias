@@ -5,7 +5,5 @@
     "rootDir": "./src",
     "outDir": "./lib"
   },
-  "references": [
-    { "path": "../package-f" }
-  ]
+  "references": [{ "path": "../package-f" }]
 }

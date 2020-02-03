@@ -15,7 +15,7 @@ This package create aliases that makes webpack resolve the TypeScript files inst
 For instance, when package A is a referenced project, the alias will let you do the following import:
 
 ```js
-import 'A/lib/foo'; // webpack will resolve A/src/foo.ts
+import "A/lib/foo"; // webpack will resolve A/src/foo.ts
 ```
 
 ## Usage
@@ -24,11 +24,11 @@ import 'A/lib/foo'; // webpack will resolve A/src/foo.ts
 const { getAliasForProject } = require("webpack-project-references-alias");
 
 module.exports = {
-  entry: './src/index.ts',
-  mode: 'production',
+  entry: "./src/index.ts",
+  mode: "production",
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    path: path.resolve(__dirname, "dist"),
+    filename: "bundle.js"
   },
   resolve: {
     extensions: [".ts"],
@@ -36,16 +36,15 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.ts$/, loader: "ts-loader", options: {transpileOnly: true} }
+      { test: /\.ts$/, loader: "ts-loader", options: { transpileOnly: true } }
     ]
   }
 };
-
 ```
 
 # Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
+This project welcomes contributions and suggestions. Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
 the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
 

@@ -1,12 +1,12 @@
-const path = require('path');
+const path = require("path");
 const { getAliasForProject } = require("webpack-project-references-alias");
 
 module.exports = {
-  entry: './src/index.ts',
-  mode: 'development',
+  entry: "./src/index.ts",
+  mode: "development",
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    path: path.resolve(__dirname, "dist"),
+    filename: "bundle.js"
   },
   resolve: {
     extensions: [".ts"],
@@ -14,7 +14,7 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.ts$/, loader: "ts-loader", options: {transpileOnly: true} }
+      { test: /\.ts$/, loader: "ts-loader", options: { transpileOnly: true } }
     ]
   }
 };
