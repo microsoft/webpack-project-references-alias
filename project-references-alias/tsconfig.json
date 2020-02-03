@@ -1,0 +1,9 @@
+{
+  "include": ["src"],
+  "compilerOptions": {
+    "composite": true,
+    "module": "commonjs",
+    "rootDir": "./src",
+    "outDir": "./lib"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "include": ["."],
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "./lib"
+  }
+}

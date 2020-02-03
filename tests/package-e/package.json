@@ -1,0 +1,11 @@
+{
+  "name": "package-e",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "dependencies": {
+    "typescript": "*",
+    "package-f": "*"
+  }
+}

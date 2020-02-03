@@ -1,0 +1,14 @@
+{
+  "include": ["src"],
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./lib"
+  },
+  "references": [
+    { "path": "../package-a" },
+    { "path": "../package-b" },
+    { "path": "../package-c/tsconfig.prod.json"},
+    { "path": "../project-d/tsconfig.json" },
+    { "path": "../package-e" }
+  ]
+}

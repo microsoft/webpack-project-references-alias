@@ -1,0 +1,10 @@
+{
+  "name": "package-b",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts",
+  "dependencies": {
+    "typescript": "*"
+  }
+}

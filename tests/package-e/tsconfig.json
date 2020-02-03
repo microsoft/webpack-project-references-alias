@@ -1,0 +1,11 @@
+{
+  "include": ["src"],
+  "compilerOptions": {
+    "composite": true,
+    "rootDir": "./src",
+    "outDir": "./lib"
+  },
+  "references": [
+    { "path": "../package-f" }
+  ]
+}

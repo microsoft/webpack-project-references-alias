@@ -1,0 +1,10 @@
+{
+  "name": "project-references-alias",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "dependencies": {
+    "typescript": "*",
+    "@types/node": "^13.0.0"
+  }
+}
