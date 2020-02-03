@@ -4,11 +4,11 @@
 
 [TypeScript](https://www.typescriptlang.org/) introduced a feature called [Project References](https://www.typescriptlang.org/docs/handbook/project-references.html) in version 3.0.
 
-This concept, demanded to have the compiled files either checked-in or generated after each branch switch. Not doing this would result in a broken IntelliSense experience.
+Project References required compiled .d.ts files either checked-in or generated after each branch switch. Not doing this would result in a broken IntelliSense experience.
 
-This drawback was fixed in version 3.7, the TypeScript language server can now inderstand project references. This improved a lot the IntelliSense experience across projects and removed the need to have the compiled files on disk.
+This drawback was fixed in version 3.7. The TypeScript language server can now inderstand project references. This improves the IntelliSense experience across projects while removing the need to have the compiled files on disk.
 
-The goal of this package is to provide a tool to make webpack understand project references as well. This is needed when want to optimize build time by using transpile-only loaders (ts-loader in transpile-only mode or babel-loader) without the need to have the generated files on disk.
+The goal of this package is to provide a tool to make webpack understand project references as well. This is needed when optimizing build time when using transpile-only loaders (ts-loader in transpile-only mode or babel-loader) without the need to have the generated files on disk.
 
 This package create aliases that makes webpack resolve the TypeScript files instead of the generated JavaScript files.
 
