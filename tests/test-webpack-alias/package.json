@@ -4,7 +4,7 @@
   "license": "MIT",
   "dependencies": {
     "package-a": "*",
-    "project-references-alias": "*",
+    "webpack-project-references-alias": "*",
     "package-c": "*",
     "package-b": "*",
     "package-e": "*",

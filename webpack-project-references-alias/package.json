@@ -1,5 +1,5 @@
 {
-  "name": "project-references-alias",
+  "name": "webpack-project-references-alias",
   "version": "1.0.0",
   "license": "MIT",
   "main": "./lib/index.js",

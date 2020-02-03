@@ -3,10 +3,10 @@
   "private": true,
   "version": "1.0.0",
   "main": "index.js",
-  "workspaces": ["tests/*", "project-references-alias"],
+  "workspaces": ["tests/*", "webpack-project-references-alias"],
   "license": "MIT",
   "scripts": {
-    "build": "cd project-references-alias && yarn tsc --build",
+    "build": "cd webpack-project-references-alias && yarn tsc --build",
     "test": "yarn test-alias && yarn test-lib-imports",
     "test-alias": "yarn clean-tests && yarn bundle-from-sources",
     "test-lib-imports": "yarn build-tests && yarn bundle-from-lib",
