@@ -1,4 +1,4 @@
-# Webpack alias generator for TypeScript project references.
+# Webpack alias generator for TypeScript project references
 
 ## Description
 
