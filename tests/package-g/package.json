@@ -1,0 +1,10 @@
+{
+  "name": "package-g",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "./sources/lib/index.js",
+  "typings": "./sources/lib/index.d.ts",
+  "dependencies": {
+    "typescript": "*"
+  }
+}

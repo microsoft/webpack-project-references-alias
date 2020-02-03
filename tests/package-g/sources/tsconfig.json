@@ -1,9 +1,7 @@
 {
   "include": ["src"],
   "compilerOptions": {
-    "target": "es2017",
     "composite": true,
-    "module": "commonjs",
     "rootDir": "./src",
     "outDir": "./lib"
   }

@@ -30,9 +30,16 @@ console.log(ProjectD_moduleD);
 
 // default import, project with rootDir=src and outDir=lib, with re-export from nested project
 import { PackageE_default } from "package-e";
+console.log(PackageE_default);
 
 // import from outDir, project with rootDir=src and outDir=lib, with re-export from nested project
 import { PackageE_moduleE } from "package-e/lib/module-e";
+console.log(PackageE_moduleE);
 
-// reference all the imported names
-console.log(PackageE_moduleE, PackageE_default);
+// default import, project with rootDir=src and outDir=lib, and tsconfig in a subpackage
+import { PackageG_default } from "package-g";
+console.log(PackageG_default);
+
+// import from outDir, project with rootDir=src and outDir=lib, and tsconfig in a subpackage
+import { PackageG_moduleG } from "package-g/sources/lib/module-g";
+console.log(PackageG_moduleG);
