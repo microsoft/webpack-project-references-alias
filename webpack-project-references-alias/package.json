@@ -1,8 +1,11 @@
 {
-  "name": "webpack-project-references-alias",
+  "name": "@microsoft/webpack-project-references-alias",
   "version": "1.0.0",
   "license": "MIT",
   "main": "./lib/index.js",
+  "scripts": {
+    "prepublishOnly": "tsc"
+  },
   "dependencies": {
     "typescript": "*",
     "@types/node": "^13.0.0"
