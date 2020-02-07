@@ -1,7 +1,11 @@
 {
   "name": "@microsoft/webpack-project-references-alias",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/microsoft/webpack-project-references-alias"
+  },
   "main": "./lib/index.js",
   "scripts": {
     "prepublishOnly": "tsc"
