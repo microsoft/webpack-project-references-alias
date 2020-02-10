@@ -10,7 +10,7 @@ type TsConfig = {
 type PackageJson = { main?: string; name: string };
 
 export function getAliasForProject(
-  project: string | undefined
+  project?: string
 ): { [key: string]: string } {
   if (typeof project === "undefined") {
     project = process.cwd();
