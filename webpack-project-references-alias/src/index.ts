@@ -9,6 +9,8 @@ type TsConfig = {
 
 type PackageJson = { main?: string; name: string };
 
+type Alias = { [key: string]: string };
+
 export function getAliasForProject(
   project?: string
 ): { [key: string]: string } {
@@ -20,7 +22,21 @@ export function getAliasForProject(
   const alias = flattenObject(
     getReferencedProjectsRecursive(rootProjectPath).map(getAliasFor)
   );
-  return alias;
+  return convertSlashes(alias);
+}
+
+function toForwardSlashes(input: string): string {
+  return input.replace(/\\/g, "/");
+}
+
+function convertSlashes(alias: Alias): Alias {
+  return Object.keys(alias).reduce(
+    (prev: Alias, cur: string) => ({
+      ...prev,
+      ...{ [toForwardSlashes(cur)]: toForwardSlashes(alias[cur]) }
+    }),
+    {}
+  );
 }
 
 function resolveTsConfig(p: string): string {
@@ -78,7 +94,7 @@ function tryGetPackageInfo(
   }
 }
 
-function getAliasFor(tsConfigPath: string) {
+function getAliasFor(tsConfigPath: string): Alias {
   const projectRootDir = path.dirname(tsConfigPath);
 
   const config = require(tsConfigPath) as TsConfig;
