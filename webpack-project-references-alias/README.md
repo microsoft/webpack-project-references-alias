@@ -21,7 +21,7 @@ import "A/lib/foo"; // webpack will resolve A/src/foo.ts
 ## Usage
 
 ```js
-const { getAliasForProject } = require("webpack-project-references-alias");
+const { getAliasForProject } = require("@microsoft/webpack-project-references-alias");
 
 module.exports = {
   entry: "./src/index.ts",
