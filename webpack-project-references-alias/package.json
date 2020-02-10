@@ -10,7 +10,7 @@
   "scripts": {
     "prepublishOnly": "tsc"
   },
-  "dependencies": {
+  "devDependencies": {
     "typescript": "*",
     "@types/node": "^13.0.0"
   }

@@ -22,7 +22,7 @@
     "bundle-from-sources": "cd tests/test-webpack-alias && yarn webpack",
     "bundle-from-lib": "cd tests/test-webpack-alias && yarn webpack --config webpack.config.prod.js"
   },
-  "dependencies": {
+  "devDependencies": {
     "prettier": "^1.19.1"
   }
 }
