@@ -1,6 +1,12 @@
 import * as fs from "fs";
 import * as path from "path";
-import { flatten, flattenObject, dedupe, keepApplying } from "./functional";
+import {
+  memoize,
+  flatten,
+  flattenObject,
+  dedupe,
+  keepApplying
+} from "./functional";
 
 type TsConfig = {
   compilerOptions?: { outDir?: string; rootDir?: string };
@@ -45,15 +51,17 @@ function resolveTsConfig(p: string): string {
   return configPath;
 }
 
-function getReferencedProjectsRecursive(tsConfigPath: string): string[] {
-  const directReferencedProjects = getReferencedProjects(tsConfigPath);
-  return [
-    tsConfigPath,
-    ...dedupe(
-      flatten(directReferencedProjects.map(getReferencedProjectsRecursive))
-    )
-  ];
-}
+const getReferencedProjectsRecursive = memoize(
+  (tsConfigPath: string): string[] => {
+    const directReferencedProjects = getReferencedProjects(tsConfigPath);
+    return [
+      tsConfigPath,
+      ...dedupe(
+        flatten(directReferencedProjects.map(getReferencedProjectsRecursive))
+      )
+    ];
+  }
+);
 
 function getReferencedProjects(tsConfigPath: string) {
   const projectDir = path.dirname(tsConfigPath);

@@ -14,6 +14,19 @@ function convertToFluent<T>(
   };
 }
 
+export function memoize<T>(func: (input: string) => T): (input: string) => T {
+  const cache: { [key: string]: T } = {};
+  return (input: string) => {
+    const cacheHit = cache[input];
+    if (cacheHit) {
+      return cacheHit;
+    }
+    const result = func(input);
+    cache[input] = result;
+    return result;
+  };
+}
+
 function first<T>(
   predicate: (v: T) => boolean,
   gen: Generator<T, void, unknown>
