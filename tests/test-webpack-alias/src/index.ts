@@ -22,12 +22,6 @@ console.log(PackageC_default);
 import { PackageC_moduleC } from "package-c/lib/module-c";
 console.log(PackageC_moduleC);
 
-// relative imports from outDir, project with rootDir=src, outDir=lib and no package.json
-import { ProjectD_default } from "../../project-d/lib";
-import { ProjectD_moduleD } from "../../project-d/lib/module-d";
-console.log(ProjectD_default);
-console.log(ProjectD_moduleD);
-
 // default import, project with rootDir=src and outDir=lib, with re-export from nested project
 import { PackageE_default } from "package-e";
 console.log(PackageE_default);

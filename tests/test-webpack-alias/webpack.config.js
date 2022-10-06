@@ -1,5 +1,5 @@
 const path = require("path");
-const { getAliasForProject } = require("webpack-project-references-alias");
+const { getAliasForProject } = require("@microsoft/webpack-project-references-alias");
 
 module.exports = {
   entry: "./src/index.ts",

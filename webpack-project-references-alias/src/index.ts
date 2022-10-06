@@ -125,6 +125,7 @@ function getAliasFor(tsConfigPath: string): Alias {
       packageInfo.packageDir,
       packageInfo.main || "./index.js"
     );
+
     const importLib = outDir.replace(packageInfo.packageDir, name);
     const importSrc = rootDir;
 
@@ -133,8 +134,6 @@ function getAliasFor(tsConfigPath: string): Alias {
     alias[importLib] = importSrc;
     alias[`${name}$`] = sourceOfMain;
   }
-
-  alias[outDir] = rootDir;
 
   return alias;
 }
