@@ -1,0 +1,10 @@
+{
+  "name": "package-d",
+  "version": "1.0.0",
+  "license": "MIT",
+  "module": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "dependencies": {
+    "typescript": "*"
+  }
+}

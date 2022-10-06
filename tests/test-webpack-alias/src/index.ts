@@ -22,6 +22,11 @@ console.log(PackageC_default);
 import { PackageC_moduleC } from "package-c/lib/module-c";
 console.log(PackageC_moduleC);
 
+// default module import, project with rootDir=src and outDir=lib
+import { PackageD_default } from "package-d";
+console.log(PackageD_default);
+
+
 // default import, project with rootDir=src and outDir=lib, with re-export from nested project
 import { PackageE_default } from "package-e";
 console.log(PackageE_default);

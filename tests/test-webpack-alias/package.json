@@ -7,6 +7,7 @@
     "@microsoft/webpack-project-references-alias": "*",
     "package-c": "*",
     "package-b": "*",
+    "package-d": "*",
     "package-e": "*",
     "package-g": "*",
     "ts-loader": "^6.2.1",

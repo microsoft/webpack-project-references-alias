@@ -13,7 +13,7 @@ type TsConfig = {
   references?: { path: string }[];
 };
 
-type PackageJson = { main?: string; name: string };
+type PackageJson = { module?: string; main?: string; name: string };
 
 type Alias = { [key: string]: string };
 
@@ -89,14 +89,14 @@ function findPackageJsonDir(dir: string): string | undefined {
 
 function tryGetPackageInfo(
   dir: string
-): { name: string; main?: string; packageDir: string } | undefined {
+): { name: string; module?: string; main?: string; packageDir: string } | undefined {
   try {
     const packageDir = findPackageJsonDir(dir);
     const packageJson = require(path.join(
       packageDir,
       "package.json"
     )) as PackageJson;
-    return { name: packageJson.name, main: packageJson.main, packageDir };
+    return { name: packageJson.name, module: packageJson.module, main: packageJson.main, packageDir };
   } catch {
     return undefined;
   }
@@ -123,7 +123,7 @@ function getAliasFor(tsConfigPath: string): Alias {
     const name = packageInfo.name;
     const main = path.join(
       packageInfo.packageDir,
-      packageInfo.main || "./index.js"
+      packageInfo.module || packageInfo.main || "./index.js"
     );
 
     const importLib = outDir.replace(packageInfo.packageDir, name);

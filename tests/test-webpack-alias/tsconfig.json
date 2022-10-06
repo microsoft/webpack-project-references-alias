@@ -8,6 +8,7 @@
     { "path": "../package-a" },
     { "path": "../package-b" },
     { "path": "../package-c/tsconfig.prod.json" },
+    { "path": "../package-d" },
     { "path": "../package-e" },
     { "path": "../package-g/sources" }
   ]
