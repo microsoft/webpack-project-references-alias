@@ -178,10 +178,7 @@ function getAliasFor(tsConfigPath: string): Alias {
       if (exportsKey !== ".") {
         const value = getExportsValue(packageInfo, exportsKey);
         if (typeof value === "string" && exportsKey !== value) {
-          const modulePath = path.join(
-            packageInfo.packageDir,
-            getExportsValue(packageInfo, exportsKey)
-          );
+          const modulePath = path.join(packageInfo.packageDir, value);
           const moduleSourcePath = modulePath
             .replace(outDir, rootDir)
             .replace(/\.js$/, "");
