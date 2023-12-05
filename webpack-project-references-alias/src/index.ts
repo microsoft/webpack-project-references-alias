@@ -79,7 +79,7 @@ const getReferencedProjectsRecursive = memoize(
 
 function getReferencedProjects(tsConfigPath: string) {
   const projectDir = path.dirname(tsConfigPath);
-  const config = require(tsConfigPath) as TsConfig;
+  const config = JSON.parse(fs.readFileSync(tsConfigPath, "utf-8")) as TsConfig;
   const references = config.references
     ?.map((o) => o.path)
     .map((p) => path.join(projectDir, p))
@@ -106,10 +106,9 @@ function tryGetPackageInfo(
 ): (PackageJson & { packageDir: string }) | undefined {
   try {
     const packageDir = findPackageJsonDir(dir);
-    const packageJson = require(path.join(
-      packageDir,
-      "package.json"
-    )) as PackageJson;
+    const packageJson = JSON.parse(
+      fs.readFileSync(path.join(packageDir, "package.json"), "utf-8")
+    ) as PackageJson;
     return {
       name: packageJson.name,
       module: packageJson.module,
@@ -140,7 +139,7 @@ function getExportsValue(
 function getAliasFor(tsConfigPath: string): Alias {
   const projectRootDir = path.dirname(tsConfigPath);
 
-  const config = require(tsConfigPath) as TsConfig;
+  const config = JSON.parse(fs.readFileSync(tsConfigPath, "utf-8")) as TsConfig;
 
   const hasExplicitOutDir =
     typeof config.compilerOptions.outDir !== "undefined";
