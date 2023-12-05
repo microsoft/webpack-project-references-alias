@@ -2,7 +2,9 @@
   "include": ["src"],
   "compilerOptions": {
     "rootDir": "./src",
-    "outDir": "./lib"
+    "outDir": "./lib",
+    "module": "ES2015",
+    "moduleResolution": "Bundler"    
   },
   "references": [
     { "path": "../package-a" },
@@ -10,6 +12,7 @@
     { "path": "../package-c/tsconfig.prod.json" },
     { "path": "../package-d" },
     { "path": "../package-e" },
-    { "path": "../package-g/sources" }
+    { "path": "../package-g/sources" },
+    { "path": "../package-h" }
   ]
 }

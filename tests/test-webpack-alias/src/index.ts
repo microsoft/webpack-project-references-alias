@@ -42,3 +42,7 @@ console.log(PackageG_default);
 // import from outDir, project with rootDir=src and outDir=lib, and tsconfig in a subpackage
 import { PackageG_moduleG } from "package-g/sources/lib/module-g";
 console.log(PackageG_moduleG);
+
+// import via exports map
+import { PackageH_moduleH } from "package-h/h";
+console.log(PackageH_moduleH);

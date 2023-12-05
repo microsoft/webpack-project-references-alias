@@ -5,7 +5,7 @@ import {
   flatten,
   flattenObject,
   dedupe,
-  keepApplying
+  keepApplying,
 } from "./functional";
 
 type TsConfig = {
@@ -13,7 +13,21 @@ type TsConfig = {
   references?: { path: string }[];
 };
 
-type PackageJson = { module?: string; main?: string; name: string };
+type PackageJson = {
+  name: string;
+  module?: string;
+  main?: string;
+  exports?: Record<
+    string,
+    | string
+    | {
+        import?: string;
+        require?: string;
+        node?: string;
+        default?: string;
+      }
+  >;
+};
 
 type Alias = { [key: string]: string };
 
@@ -39,7 +53,7 @@ function convertSlashes(alias: Alias): Alias {
   return Object.keys(alias).reduce(
     (prev: Alias, cur: string) => ({
       ...prev,
-      ...{ [toForwardSlashes(cur)]: toForwardSlashes(alias[cur]) }
+      ...{ [toForwardSlashes(cur)]: toForwardSlashes(alias[cur]) },
     }),
     {}
   );
@@ -58,7 +72,7 @@ const getReferencedProjectsRecursive = memoize(
       tsConfigPath,
       ...dedupe(
         flatten(directReferencedProjects.map(getReferencedProjectsRecursive))
-      )
+      ),
     ];
   }
 );
@@ -67,8 +81,8 @@ function getReferencedProjects(tsConfigPath: string) {
   const projectDir = path.dirname(tsConfigPath);
   const config = require(tsConfigPath) as TsConfig;
   const references = config.references
-    ?.map(o => o.path)
-    .map(p => path.join(projectDir, p))
+    ?.map((o) => o.path)
+    .map((p) => path.join(projectDir, p))
     .map(resolveTsConfig);
   return references ?? [];
 }
@@ -89,16 +103,37 @@ function findPackageJsonDir(dir: string): string | undefined {
 
 function tryGetPackageInfo(
   dir: string
-): { name: string; module?: string; main?: string; packageDir: string } | undefined {
+): (PackageJson & { packageDir: string }) | undefined {
   try {
     const packageDir = findPackageJsonDir(dir);
     const packageJson = require(path.join(
       packageDir,
       "package.json"
     )) as PackageJson;
-    return { name: packageJson.name, module: packageJson.module, main: packageJson.main, packageDir };
+    return {
+      name: packageJson.name,
+      module: packageJson.module,
+      main: packageJson.main,
+      exports: packageJson.exports,
+      packageDir,
+    };
   } catch {
     return undefined;
+  }
+}
+
+function getExportsValue(
+  packageInfo: PackageJson,
+  exportsKey: string
+): string | undefined {
+  const exports = packageInfo.exports || {};
+  const value = exports[exportsKey];
+  if (typeof value === "string") {
+    return value;
+  } else if (!value) {
+    return undefined;
+  } else {
+    return value.import || value.require || value.node || value.default;
   }
 }
 
@@ -123,16 +158,38 @@ function getAliasFor(tsConfigPath: string): Alias {
     const name = packageInfo.name;
     const main = path.join(
       packageInfo.packageDir,
-      packageInfo.module || packageInfo.main || "./index.js"
+      packageInfo.module ||
+        packageInfo.main ||
+        getExportsValue(packageInfo, ".") ||
+        "./index.js"
     );
 
     const importLib = outDir.replace(packageInfo.packageDir, name);
     const importSrc = rootDir;
 
-    const sourceOfMain = main.replace(outDir, rootDir).replace(".js", "");
+    const sourceOfMain = main.replace(outDir, rootDir).replace(/\.js$/, "");
 
     alias[importLib] = importSrc;
     alias[`${name}$`] = sourceOfMain;
+
+    // If the package has an exports map, the entries in that map may be adding a
+    // level of aliasing that we need to account for.
+    for (const exportsKey of Object.keys(packageInfo.exports || {})) {
+      if (exportsKey !== ".") {
+        const value = getExportsValue(packageInfo, exportsKey);
+        if (typeof value === "string" && exportsKey !== value) {
+          const modulePath = path.join(
+            packageInfo.packageDir,
+            getExportsValue(packageInfo, exportsKey)
+          );
+          const moduleSourcePath = modulePath
+            .replace(outDir, rootDir)
+            .replace(/\.js$/, "");
+          const moduleAliasPath = toForwardSlashes(path.normalize(exportsKey));
+          alias[`${name}/${moduleAliasPath}`] = moduleSourcePath;
+        }
+      }
+    }
   }
 
   return alias;

@@ -1,0 +1,23 @@
+{
+  "name": "package-h",
+  "version": "1.0.0",
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": {
+      "default": "./package.json"
+    },
+    "./h": {
+      "types": "./lib/folder/module-h.d.ts",
+      "default": "./lib/folder/module-h.js"
+    }
+  },
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "dependencies": {
+    "typescript": "*"
+  }
+}
