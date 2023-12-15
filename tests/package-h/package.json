@@ -1,0 +1,15 @@
+{
+  "name": "package-h",
+  "version": "1.0.0",
+  "license": "MIT",
+  "exports": {
+    "./foo": {
+      "types": "./lib/index.d.ts",
+      "source": "./src/index.ts",
+      "import": "./lib/index.js"
+    }
+  },
+  "dependencies": {
+    "typescript": "*"
+  }
+}

@@ -13,7 +13,13 @@ type TsConfig = {
   references?: { path: string }[];
 };
 
-type PackageJson = { module?: string; main?: string; name: string };
+type PackageJson = {
+  name: string;
+  module?: string;
+  main?: string;
+  packageDir: string;
+  exports?: Exports
+}
 
 type Alias = { [key: string]: string };
 
@@ -87,9 +93,11 @@ function findPackageJsonDir(dir: string): string | undefined {
     .first(isPackageDir);
 }
 
+type Exports = string | { [condition: string] : Exports };
+
 function tryGetPackageInfo(
   dir: string
-): { name: string; module?: string; main?: string; packageDir: string } | undefined {
+): PackageJson | undefined {
   try {
     const packageDir = findPackageJsonDir(dir);
     const packageJson = require(path.join(
@@ -120,19 +128,25 @@ function getAliasFor(tsConfigPath: string): Alias {
   const packageInfo = tryGetPackageInfo(projectRootDir);
   const alias = {};
   if (typeof packageInfo !== "undefined") {
-    const name = packageInfo.name;
-    const main = path.join(
-      packageInfo.packageDir,
-      packageInfo.module || packageInfo.main || "./index.js"
-    );
-
-    const importLib = outDir.replace(packageInfo.packageDir, name);
-    const importSrc = rootDir;
-
-    const sourceOfMain = main.replace(outDir, rootDir).replace(".js", "");
-
-    alias[importLib] = importSrc;
-    alias[`${name}$`] = sourceOfMain;
+    // Only add aliases for packages that don't have exports maps. Packages with exports maps
+    // should add a "source" condition for each export instead of relying on this plugin, then
+    // add "source" in the resolve.conditionNames option of the webpack config.
+    // See: https://webpack.js.org/configuration/resolve/#resolveconditionnames
+    if (typeof packageInfo!.exports === "undefined") {
+      const name = packageInfo.name;
+      const main = path.join(
+        packageInfo.packageDir,
+        packageInfo.module || packageInfo.main || "./index.js"
+      );
+  
+      const importLib = outDir.replace(packageInfo.packageDir, name);
+      const importSrc = rootDir;
+  
+      const sourceOfMain = main.replace(outDir, rootDir).replace(".js", "");
+  
+      alias[importLib] = importSrc;
+      alias[`${name}$`] = sourceOfMain;
+    }
   }
 
   return alias;
