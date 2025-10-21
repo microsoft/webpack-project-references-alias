@@ -1,5 +1,6 @@
 {
-  "include": ["src"],
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.test.ts", "src/**/*.spec.ts"],
   "compilerOptions": {
     "target": "es2017",
     "composite": true,
