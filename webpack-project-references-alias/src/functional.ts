@@ -76,7 +76,7 @@ export function flatten<T>(array: T[][]): T[] {
 }
 
 export function flattenObject<T extends { [key: string]: any }>(array: T[]): T {
-  return array.reduce((prev: T, cur: T) => ({ ...prev, ...cur }));
+  return array.reduce((prev: T, cur: T) => ({ ...prev, ...cur }), {} as T);
 }
 
 export function dedupe<T>(array: T[]): T[] {
