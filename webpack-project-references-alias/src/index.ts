@@ -1,10 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
 import {
-  memoize,
-  flatten,
-  flattenObject,
-  dedupe,
   keepApplying
 } from "./functional";
 
@@ -25,9 +21,11 @@ export function getAliasForProject(
   }
 
   const rootProjectPath = resolveTsConfig(project);
-  const alias = flattenObject(
-    getReferencedProjectsRecursive(rootProjectPath).map(getAliasFor)
-  );
+  const allProjects = getReferencedProjectsIterative(rootProjectPath);
+  const alias: Alias = {};
+  for (const proj of allProjects) {
+    Object.assign(alias, getAliasFor(proj));
+  }
   return convertSlashes(alias);
 }
 
@@ -36,13 +34,11 @@ function toForwardSlashes(input: string): string {
 }
 
 function convertSlashes(alias: Alias): Alias {
-  return Object.keys(alias).reduce(
-    (prev: Alias, cur: string) => ({
-      ...prev,
-      ...{ [toForwardSlashes(cur)]: toForwardSlashes(alias[cur]) }
-    }),
-    {}
-  );
+  const result: Alias = {};
+  for (const key of Object.keys(alias)) {
+    result[toForwardSlashes(key)] = toForwardSlashes(alias[key]);
+  }
+  return result;
 }
 
 function resolveTsConfig(p: string): string {
@@ -51,26 +47,37 @@ function resolveTsConfig(p: string): string {
   return configPath;
 }
 
-const getReferencedProjectsRecursive = memoize(
-  (tsConfigPath: string): string[] => {
-    const directReferencedProjects = getReferencedProjects(tsConfigPath);
-    return [
-      tsConfigPath,
-      ...dedupe(
-        flatten(directReferencedProjects.map(getReferencedProjectsRecursive))
-      )
-    ];
-  }
-);
+function getReferencedProjectsIterative(rootTsConfigPath: string): string[] {
+  const visited = new Set<string>();
+  const result: string[] = [];
+  const queue: string[] = [rootTsConfigPath];
 
-function getReferencedProjects(tsConfigPath: string) {
-  const projectDir = path.dirname(tsConfigPath);
-  const config = require(tsConfigPath) as TsConfig;
-  const references = config.references
-    ?.map(o => o.path)
-    .map(p => path.join(projectDir, p))
-    .map(resolveTsConfig);
-  return references ?? [];
+  while (queue.length > 0) {
+    const tsConfigPath = queue.pop()!;
+    if (visited.has(tsConfigPath)) continue;
+    visited.add(tsConfigPath);
+    result.push(tsConfigPath);
+
+    const projectDir = path.dirname(tsConfigPath);
+    try {
+      const config = require(tsConfigPath) as TsConfig;
+      const references = config.references
+        ?.map(o => o.path)
+        .map(p => path.join(projectDir, p))
+        .map(resolveTsConfig);
+      if (references) {
+        for (const ref of references) {
+          if (!visited.has(ref)) {
+            queue.push(ref);
+          }
+        }
+      }
+    } catch {
+      // Skip unreadable tsconfig files
+    }
+  }
+
+  return result;
 }
 
 function isPackageDir(dir: string): boolean {
