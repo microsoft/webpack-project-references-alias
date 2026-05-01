@@ -10,6 +10,7 @@ module.exports = {
   },
   resolve: {
     extensions: [".ts"],
+    conditionNames: ["source", "import", "require"],  
     alias: getAliasForProject()
   },
   module: {
